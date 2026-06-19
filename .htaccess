@@ -1,0 +1,132 @@
+# Oryzenx - Apache Configuration
+# Enable Mod Rewrite and Security
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Redirect HTTP to HTTPS (uncomment in production)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    
+    # Remove www from URL (optional)
+    # RewriteCond %{HTTP_HOST} ^www\. [NC]
+    # RewriteRule ^(.*)$ http://%{HTTP_HOST:8}/$1 [R=301,L]
+    
+    # Protect config and system files
+    RewriteRule ^config\.php$ - [F,L]
+    RewriteRule ^config-example\.php$ - [F,L]
+    RewriteRule ^install\.php$ - [F,L]
+    RewriteRule ^\.htaccess$ - [F,L]
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^\.env$ - [F,L]
+    RewriteRule ^README\.md$ - [F,L]
+    RewriteRule ^database\.sql$ - [F,L]
+    
+    # Protect sensitive directories
+    RewriteRule ^(logs|uploads/payments|includes/.*\.php) - [F,L]
+    
+    # Pretty URLs - Don't rewrite actual files or directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # API routing
+    RewriteRule ^api/(.*)$ /api/router.php?route=$1 [QSA,L]
+    
+    # Admin panel routing
+    RewriteRule ^admin/(.*)$ /admin/router.php?route=$1 [QSA,L]
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking (Clickjacking attacks)
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevent MIME-type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Enable XSS protection in older browsers
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Remove server information
+    Header always unset "X-Powered-By"
+    Header unset "X-Powered-By"
+    Header always modify "Server" "."
+    
+    # Content Security Policy (basic)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://code.jquery.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https:;"
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
+
+# Deny access to sensitive files
+<FilesMatch "^\.(htaccess|htpasswd|env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to hidden files
+<FilesMatch "^\\.(git|svn|hg)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Deny access to logs directory
+<DirectoryMatch "^/logs">
+    Order allow,deny
+    Deny from all
+</DirectoryMatch>
+
+# Deny access to payment proofs
+<DirectoryMatch "^/uploads/payments">
+    Order allow,deny
+    Deny from all
+</DirectoryMatch>
+
+# Caching - Static Assets (1 year)
+<FilesMatch "\.(jpg|jpeg|png|gif|ico|css|js|svg|webp|woff|woff2|ttf|eot|otf)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+    Header set Expires "Thu, 19 Dec 2030 23:59:59 GMT"
+</FilesMatch>
+
+# HTML and PHP (1 hour - must revalidate)
+<FilesMatch "\.(html|php)$">
+    Header set Cache-Control "max-age=3600, must-revalidate, public"
+    Header set Pragma "public"
+</FilesMatch>
+
+# GZIP Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml+rss
+    
+    # Browser compatibility
+    <IfModule mod_setenvif.c>
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+        BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+        SetEnvIf Request_URI \.(gif|jpg|jpeg|png|svg)$ no-gzip
+    </IfModule>
+</IfModule>
+
+# Remove ETags (optional, for more efficient caching)
+<IfModule mod_headers.c>
+    Header unset ETag
+    FileETag None
+</IfModule>
+
+# Deny access to specific file extensions
+<FilesMatch "\.(ini|log|sql|phtml|phar|phps|pht|phpt|pgif|pjpeg|pjpg)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# UTF-8 Encoding
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .html .css .js .xml .json .php
