@@ -78,99 +78,12 @@ oryzenx/
 ├── README.md                   # This file
 │
 ├── admin/                      # Admin panel
-│   ├── index.php              # Admin dashboard
-│   ├── login.php              # Admin login
-│   ├── users.php              # User management
-│   ├── domains.php            # Domain management
-│   ├── blog.php               # Blog management
-│   ├── categories.php         # Blog categories
-│   ├── offers.php             # Offer management
-│   ├── payments.php           # Payment management
-│   ├── contacts.php           # Contact messages
-│   ├── partners.php           # Partner management
-│   ├── notifications.php      # Notification system
-│   ├── seo.php                # SEO settings
-│   ├── settings.php           # Site settings
-│   ├── backup.php             # Database backup
-│   ├── logs.php               # Activity logs
-│   └── logout.php             # Logout
-│
 ├── user/                       # User dashboard
-│   ├── index.php              # User profile
-│   ├── offers.php             # User offers
-│   ├── payments.php           # User payments
-│   ├── notifications.php      # User notifications
-│   ├── edit-profile.php       # Edit profile
-│   └── logout.php             # Logout
-│
 ├── api/                        # REST API endpoints
-│   ├── router.php             # API router
-│   ├── auth/
-│   │   ├── signup.php         # Register
-│   │   ├── login.php          # Login
-│   │   ├── logout.php         # Logout
-│   │   └── forgot.php         # Forgot password
-│   ├── domains/
-│   │   ├── index.php          # Get domains
-│   │   ├── store.php          # Create domain
-│   │   ├── update.php         # Update domain
-│   │   ├── delete.php         # Delete domain
-│   │   └── offer.php          # Submit offer
-│   ├── blog/
-│   │   ├── index.php          # Get posts
-│   │   ├── store.php          # Create post
-│   │   ├── update.php         # Update post
-│   │   ├── delete.php         # Delete post
-│   │   └── react.php          # Like/Love post
-│   ├── payments/
-│   │   ├── index.php          # Get payments
-│   │   ├── store.php          # Create payment
-│   │   └── verify.php         # Verify payment
-│   ├── notifications/
-│   │   ├── index.php          # Get notifications
-│   │   └── send.php           # Send notification
-│   ├── search.php             # Search API
-│   └── upload.php             # File upload API
-│
 ├── includes/                   # Core classes
-│   ├── Database.php           # Database connection
-│   ├── Auth.php               # Authentication
-│   ├── Helper.php             # Utility functions
-│   ├── Security.php           # Security functions
-│   ├── Validator.php          # Input validation
-│   ├── ImageProcessor.php     # Image handling
-│   ├── Mailer.php             # Email sending
-│   ├── QRCode.php             # QR code generation
-│   └── RateLimit.php          # Rate limiting
-│
 ├── assets/                     # Static assets
-│   ├── css/
-│   │   ├── style.css          # Main stylesheet
-│   │   ├── admin.css          # Admin panel styles
-│   │   ├── mobile.css         # Mobile styles
-│   │   └── animations.css     # Animations
-│   ├── js/
-│   │   ├── main.js            # Main JavaScript
-│   │   ├── admin.js           # Admin functions
-│   │   ├── api.js             # API client
-│   │   ├── form-validation.js # Form validation
-│   │   └── notifications.js   # Notification system
-│   ├── images/
-│   │   ├── logo.png           # Site logo
-│   │   ├── favicon.ico        # Favicon
-│   │   └── placeholder.png    # Placeholder image
-│   └── fonts/                 # Web fonts
-│
 ├── uploads/                    # User uploads
-│   ├── blog/                  # Blog images
-│   ├── domains/               # Domain images
-│   ├── payments/              # Payment proofs
-│   └── avatars/               # User avatars
-│
 └── logs/                       # Application logs
-    ├── errors.log             # Error logs
-    ├── activity.log           # Activity logs
-    └── security.log           # Security logs
 ```
 
 ## 🔧 Installation
@@ -236,21 +149,21 @@ Change these in admin panel under Settings.
 
 ## 📊 Database Tables
 
-1. **users** - User accounts and authentication
-2. **domains** - Domain listings
-3. **domain_offers** - User offers on domains
-4. **blog_posts** - Blog articles
-5. **blog_categories** - Post categories
-6. **blog_reactions** - Like/Love reactions
-7. **payments** - Payment records
-8. **notifications** - User notifications
-9. **contact_messages** - Contact form submissions
-10. **password_resets** - Password recovery tokens
-11. **partners** - Partner logos
-12. **site_settings** - Website configuration
-13. **activity_logs** - Admin actions log
-14. **security_logs** - Security events log
-15. **user_sessions** - Active sessions tracking
+1. users - User accounts and authentication
+2. domains - Domain listings
+3. domain_offers - User offers on domains
+4. blog_posts - Blog articles
+5. blog_categories - Post categories
+6. blog_reactions - Like/Love reactions
+7. payments - Payment records
+8. notifications - User notifications
+9. contact_messages - Contact form submissions
+10. password_resets - Password recovery tokens
+11. partners - Partner logos
+12. site_settings - Website configuration
+13. activity_logs - Admin actions log
+14. security_logs - Security events log
+15. user_sessions - Active sessions tracking
 
 ## 🎨 Design Features
 
