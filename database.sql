@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
 -- ============================================
 -- PASSWORD RESETS TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS `password_resets` {
+CREATE TABLE IF NOT EXISTS `password_resets` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `token` VARCHAR(255) UNIQUE NOT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `password_resets` {
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   INDEX idx_token (token),
   INDEX idx_status (status)
-} ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================
 -- PARTNERS TABLE
@@ -340,19 +340,9 @@ CREATE TABLE IF NOT EXISTS `rate_limits` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================
--- Create Initial Indices for Performance
--- ============================================
-CREATE INDEX idx_created ON users(created_at);
-CREATE INDEX idx_created ON domains(created_at);
-CREATE INDEX idx_created ON blog_posts(created_at);
-CREATE INDEX idx_created ON payments(created_at);
-CREATE INDEX idx_created ON notifications(created_at);
-
--- ============================================
--- Insert Default Data
+-- DEFAULT DATA
 -- ============================================
 
--- Default Blog Categories
 INSERT IGNORE INTO `blog_categories` (name, slug, description, color) VALUES
 ('Domain Tips', 'domain-tips', 'Tips and tricks for domain investing', '#667eea'),
 ('Technology', 'technology', 'Latest tech news and updates', '#764ba2'),
@@ -360,37 +350,15 @@ INSERT IGNORE INTO `blog_categories` (name, slug, description, color) VALUES
 ('News', 'news', 'Company and industry news', '#4facfe'),
 ('Resources', 'resources', 'Useful resources and tools', '#00f2fe');
 
--- Default Site Settings
-INSERT IGNORE INTO `site_settings` (setting_key, setting_value, type, description) VALUES
-('site_name', 'Oryzenx', 'string', 'Website name'),
-('site_description', 'Premium domain marketplace and digital services', 'string', 'Site description'),
-('site_logo', '/assets/images/logo.png', 'string', 'Logo URL'),
-('site_favicon', '/assets/images/favicon.ico', 'string', 'Favicon URL'),
-('admin_email', 'admin@oryzenx.com', 'string', 'Admin email'),
-('support_email', 'support@oryzenx.com', 'string', 'Support email'),
-('phone_number', '', 'string', 'Contact phone'),
-('address', '', 'string', 'Company address'),
-('currency', 'USD', 'string', 'Default currency'),
-('wallet_usdt', '0x79395cbf73a98c48bfa53480d16cd5b428b5aff9', 'string', 'USDT BEP20 wallet'),
-('wallet_trx', 'TLKZgeHU45vMuZcHeEHQ95GZQ2UhB3cfxV', 'string', 'TRX wallet'),
-('wallet_trc20', 'TLKZgeHU45vMuZcHeEHQ95GZQ2UhB3cfxV', 'string', 'TRC20 wallet'),
-('min_offer_price', '150', 'number', 'Minimum offer price'),
-('items_per_page', '20', 'number', 'Pagination items'),
-('image_quality', '85', 'number', 'Image compression quality'),
-('max_upload_size', '52428800', 'number', 'Max upload size in bytes'),
-('smtp_enabled', '0', 'boolean', 'Enable SMTP'),
-('smtp_host', '', 'string', 'SMTP host'),
-('smtp_port', '587', 'number', 'SMTP port'),
-('smtp_username', '', 'string', 'SMTP username'),
-('smtp_password', '', 'string', 'SMTP password'),
-('analytics_enabled', '0', 'boolean', 'Enable analytics'),
-('google_analytics', '', 'string', 'Google Analytics ID');
-
--- ============================================
--- ALTER SESSIONS TABLE IF NEEDED
--- ============================================
-ALTER TABLE `password_resets` ENGINE=InnoDB;
-
--- ============================================
--- DONE
--- ============================================
+INSERT IGNORE INTO `site_settings` (setting_key, setting_value, type) VALUES
+('site_name', 'Oryzenx', 'string'),
+('site_description', 'Premium domain marketplace and digital services', 'string'),
+('admin_email', 'admin@oryzenx.com', 'string'),
+('support_email', 'support@oryzenx.com', 'string'),
+('currency', 'USD', 'string'),
+('wallet_usdt', '0x79395cbf73a98c48bfa53480d16cd5b428b5aff9', 'string'),
+('wallet_trx', 'TLKZgeHU45vMuZcHeEHQ95GZQ2UhB3cfxV', 'string'),
+('wallet_trc20', 'TLKZgeHU45vMuZcHeEHQ95GZQ2UhB3cfxV', 'string'),
+('min_offer_price', '150', 'number'),
+('items_per_page', '20', 'number'),
+('image_quality', '85', 'number');
