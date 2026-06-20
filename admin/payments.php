@@ -29,6 +29,7 @@ $payments = $db->fetchAll("SELECT p.*, u.name, u.email FROM payments p JOIN user
                 <li class="nav-item"><a class="nav-link" href="/admin/domains"><i class="fas fa-globe"></i> Domains</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/offers"><i class="fas fa-handshake"></i> Offers</a></li>
                 <li class="nav-item"><a class="nav-link active" href="/admin/payments"><i class="fas fa-credit-card"></i> Payments</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/blog"><i class="fas fa-newspaper"></i> Blog</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
